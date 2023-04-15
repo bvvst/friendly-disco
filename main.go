@@ -15,11 +15,13 @@ import (
 
 type Message struct {
 	Content string `json:"content"`
+	Channel string `json:"channel"`
 }
 
 type DBMessage struct {
 	Content  string `json:"content"`
 	UserAddr string `json:"user_addr"`
+	Channel  string `json:"channel"`
 }
 
 var jwtSecret string
@@ -29,7 +31,6 @@ var port string
 func init() {
 	err := godotenv.Load(".env")
 	if err != nil {
-		fmt.Println(os.Getenv("SERVICE_KEY"), os.Getenv("JWT_SECRET"))
 		fmt.Println(err)
 	}
 	serviceKey = os.Getenv("SERVICE_KEY")
@@ -39,8 +40,6 @@ func init() {
 
 func main() {
 
-	fmt.Println(serviceKey)
-	fmt.Println(jwtSecret)
 	app := fiber.New()
 
 	app.Use(func(c *fiber.Ctx) error {
@@ -82,7 +81,7 @@ func main() {
 			return c.SendString("Error Extracting Claims")
 		}
 
-		_, err = sendMessage(DBMessage{Content: m.Content, UserAddr: userAddr})
+		_, err = sendMessage(DBMessage{Content: m.Content, UserAddr: userAddr, Channel: m.Channel})
 		if err != nil {
 			fmt.Println("Error saving message")
 			return c.SendString("Error saving message")
