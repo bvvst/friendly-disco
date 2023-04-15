@@ -117,8 +117,6 @@ func sendMessage(m DBMessage) (*http.Response, error) {
 		return nil, err
 	}
 
-	fmt.Println(resp)
-
 	return resp, nil
 }
 
