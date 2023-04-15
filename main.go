@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -30,7 +29,7 @@ func init() {
 	err := godotenv.Load(".env")
 	if err != nil {
 		fmt.Println(os.Getenv("SERVICE_KEY"), os.Getenv("JWT_SECRET"))
-		log.Fatal("Error loading .env file")
+		fmt.Println(err)
 	}
 	serviceKey = os.Getenv("SERVICE_KEY")
 	jwtSecret = os.Getenv("JWT_SECRET")
