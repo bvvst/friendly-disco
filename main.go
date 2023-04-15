@@ -24,6 +24,7 @@ type DBMessage struct {
 
 var jwtSecret string
 var serviceKey string
+var port string
 
 func init() {
 	err := godotenv.Load(".env")
@@ -33,6 +34,7 @@ func init() {
 	}
 	serviceKey = os.Getenv("SERVICE_KEY")
 	jwtSecret = os.Getenv("JWT_SECRET")
+	port = os.Getenv("PORT")
 }
 
 func main() {
@@ -89,7 +91,7 @@ func main() {
 		return c.SendString("Hello, World!")
 	})
 
-	app.Listen(":3000")
+	app.Listen(":" + port)
 }
 
 func sendMessage(m DBMessage) (*http.Response, error) {
