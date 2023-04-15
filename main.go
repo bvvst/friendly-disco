@@ -81,13 +81,18 @@ func main() {
 			return c.SendString("Error Extracting Claims")
 		}
 
-		_, err = sendMessage(DBMessage{Content: m.Content, UserAddr: userAddr, Channel: m.Channel})
+		resp, err := sendMessage(DBMessage{Content: m.Content, UserAddr: userAddr, Channel: m.Channel})
 		if err != nil {
 			fmt.Println("Error saving message")
-			return c.SendString("Error saving message")
+			return c.SendStatus(400)
 		}
 
-		return c.SendString("Hello, World!")
+		if resp.StatusCode == 201 {
+			// return c.SendString("Success")
+			return c.SendStatus(201)
+		} else {
+			return c.SendStatus(400)
+		}
 	})
 
 	app.Listen(":" + port)
