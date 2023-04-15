@@ -16,12 +16,14 @@ import (
 type Message struct {
 	Content string `json:"content"`
 	Channel string `json:"channel"`
+	TempID  string `json:"temp_id"`
 }
 
 type DBMessage struct {
 	Content  string `json:"content"`
 	UserAddr string `json:"user_addr"`
 	Channel  string `json:"channel"`
+	TempID   string `json:"temp_id"`
 }
 
 var jwtSecret string
@@ -81,7 +83,7 @@ func main() {
 			return c.SendString("Error Extracting Claims")
 		}
 
-		resp, err := sendMessage(DBMessage{Content: m.Content, UserAddr: userAddr, Channel: m.Channel})
+		resp, err := sendMessage(DBMessage{Content: m.Content, UserAddr: userAddr, Channel: m.Channel, TempID: m.TempID})
 		if err != nil {
 			fmt.Println("Error saving message")
 			return c.SendStatus(400)
