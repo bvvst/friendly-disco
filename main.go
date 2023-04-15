@@ -37,6 +37,8 @@ func init() {
 
 func main() {
 
+	fmt.Println(serviceKey)
+	fmt.Println(jwtSecret)
 	app := fiber.New()
 
 	app.Use(func(c *fiber.Ctx) error {
